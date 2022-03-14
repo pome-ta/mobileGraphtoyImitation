@@ -2,6 +2,15 @@
 
 ## Pythonista で`eruda.js` 呼べない問題
 
+
+webview のキャッシュクリアとリロードをごちゃごちゃしたら直ったぽい？
+
+
+eruda.js をpika から持ってきて`module` で呼び出してる
+
+↓ ちがいますた
+
+
 初期起動時に、出ない
 
 
@@ -13,6 +22,5 @@
 ``` .py
 from editor import present_themed
 ```
-
 
 
