@@ -18,7 +18,7 @@ class View(ui.View):
     self.wv = WKWebView()
     self.wv.load_url(str(uri))
     self.wv.flex = 'WH'
-    self.refresh_webview()
+    self.wv.reload()
 
     self.add_subview(self.wv)
     self.set_close_btn()
@@ -54,9 +54,10 @@ class View(ui.View):
     else:
       self.wv.height = self.height
   '''
-  def refresh_webview(self):
+  
+  def will_close(self):
     self.wv.clear_cache()
-    #self.wv.reload()
+  
 
   def set_close_btn(self):
     self.close_btn = self.create_btn('iob:ios7_close_32', False)
@@ -76,6 +77,8 @@ class View(ui.View):
 
 if __name__ == '__main__':
   view = View()
+  #view.present(style='panel', orientations=['portrait'])
+  
   present_themed(
     view,
     theme_name='Theme09_Editorial',
@@ -83,4 +86,6 @@ if __name__ == '__main__':
     #style='panel',
     hide_title_bar=True,
     orientations=['portrait'])
+
+    
     
