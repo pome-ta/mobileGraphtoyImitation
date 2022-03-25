@@ -3,6 +3,7 @@
 function Grapher() {
   const mCanvas = document.querySelector('#mainCanvas');
   const mContext = mCanvas.getContext('2d');
+  console.log('fnc');
   
   let mycolor = '#202020';
   
@@ -11,7 +12,7 @@ function Grapher() {
   let mTimeS = 0.0;
   let mXres = 0;
   let mYres = 0;
-  
+  /*
     function iDrawGraph(mycolor) {
       mContext.strokeStyle = mycolor;
       mContext.lineWidth = 3.0;//(mTheme === 0) ? 2.0 : 3.0;
@@ -35,7 +36,9 @@ function Grapher() {
         }
       mContext.stroke();
       return success;
-    }
+    }*/
+    
 }
+console.log('out');
 
 document.addEventListener('DOMContentLoaded', Grapher);
