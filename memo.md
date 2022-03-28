@@ -9,6 +9,40 @@
 荒さや表記方法は今後
 
 
+## `with` 構文の贖罪
+
+``` .js
+// f1(x, t) * f4(x, t)
+
+function anonymous(x, t) {
+  with(Math) {
+    function f1(x, t) {
+      return (sin(440.0 * (x + t) * PI * 2.0));
+    }
+
+    function f2(x, t) {
+      return (sin(PI * (x + t) / 2.0));
+    }
+
+    function f3(x, t) {
+      return (1.0 - pow(abs(f2(x, t)), 0.5));
+    }
+
+    function f4(x, t) {
+      return (1.0 - pow(max(0.0, abs(f2(x, t)) * 2.0 - 1.0), 3.5));
+    }
+
+    function f5(x, t) {
+      return (f1(x, t) * f3(x, t));
+    }
+    return (f1(x, t) * f4(x, t));
+  }
+}
+```
+
+
+glsl <=> js のparser を書く？
+
 # 📝 2022/03/26
 
 ミニマムなものを作っていく
