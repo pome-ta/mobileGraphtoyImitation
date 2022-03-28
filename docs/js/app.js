@@ -10,7 +10,6 @@ function Grapher() {
   let mCx = 0.0;
   let mCy = 0.0;
   let mRa = 12.0;  //12.0
-
   //let mRa 4.4;
 
   let mXres = 0;
