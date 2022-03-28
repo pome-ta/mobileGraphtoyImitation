@@ -55,7 +55,9 @@ function Grapher() {
         mTimeMS = mOffsetMS + (time - mStartMS);
         mTimeS = mTimeMS / 1000.0;
         iDraw();
-        if (!mPaused) requestAnimationFrame(update);
+        if (!mPaused) {
+          requestAnimationFrame(update);
+        }
       }
       requestAnimationFrame(update);
     }
@@ -63,8 +65,8 @@ function Grapher() {
 
   function anonymous(x, t) {
     //return (sin(440.0 * (x + t) * PI * 2.0));
-    return (Math.sin(4.0 * (x + t) * Math.PI));
     //return (t);
+    return (Math.sin(4.0 * (x + t) * Math.PI));
   }
 
 
