@@ -32,7 +32,7 @@ function Grapher() {
     iDraw();
     
     togglePlay();
-    iDrawGraph();
+    
   }
   
   function iAdjustCanvas() {
@@ -46,13 +46,11 @@ function Grapher() {
   
   function togglePlay() {
     mPaused = !mPaused;
-    //console.log(mPaused);
     if (!mPaused) {
       mStartMS = 0;
       mOffsetMS = mTimeMS;
       function update(time) {
         if (mStartMS === 0) mStartMS = time;
-        
         mTimeMS = mOffsetMS + (time - mStartMS);
         mTimeS = mTimeMS / 1000.0;
         iDraw();
@@ -100,7 +98,7 @@ function Grapher() {
     }
     mContext.stroke();
     
-    console.log('/iDrawGraph');
+    //console.log('/iDrawGraph');
   }
   
   
@@ -145,7 +143,6 @@ function Grapher() {
     function drawGrid(off, color) {
       ctx.strokeStyle = color;
       let ste = Math.pow(sep, off + Math.floor(Math.log(rx) / Math.log(sep)));
-      console.log(ste);
       const iax = Math.floor(minx / ste);
       const ibx = Math.floor(maxx / ste);
       const iay = Math.floor(miny / ste);
@@ -180,7 +177,7 @@ function Grapher() {
           ctx.fillText(y.toFixed(n), 2, iy + 10);
         }
       }
-      console.log('/drawGrid');
+      //console.log('/drawGrid');
     }
     drawGrid(-1, 'lime');  // thin grid  薄いグリッド
     drawGrid(0, 'aqua');  // coarse grid  粗いグリッド
@@ -199,8 +196,8 @@ function Grapher() {
       ctx.stroke();
     }
     
-    
-    console.log('/iDraw');
+    iDrawGraph();
+    //console.log('/iDraw');
   }
     
 }
