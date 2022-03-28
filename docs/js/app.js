@@ -1,20 +1,21 @@
+
 'use strict';
 
 function Grapher() {
   const mCanvas = document.querySelector('#mainCanvas');
   const mContext = mCanvas.getContext('2d');
   const devicePixelRatio = window.devicePixelRatio || 1;
-  
-  
+
+
   let mCx = 0.0;
   let mCy = 0.0;
   let mRa = 12.0;  //12.0
-  
+
   //let mRa 4.4;
-  
+
   let mXres = 0;
   let mYres = 0;
-  
+
   // todo: togglePlay
   let mTimeS = 0.0;
   //let mPaused = false;
@@ -22,19 +23,17 @@ function Grapher() {
   let mStartMS = 0;
   let mTimeMS = 0;
   let mOffsetMS = 0;
-  
-  
+
   init();
-  
-  
+
+
   function init() {
     iAdjustCanvas();
     iDraw();
-    
     togglePlay();
-    
+
   }
-  
+
   function iAdjustCanvas() {
     const w = mCanvas.offsetWidth * devicePixelRatio;
     const h = mCanvas.offsetHeight * devicePixelRatio;
@@ -43,14 +42,16 @@ function Grapher() {
     mXres = w;
     mYres = h;
   }
-  
+
   function togglePlay() {
     mPaused = !mPaused;
     if (!mPaused) {
       mStartMS = 0;
       mOffsetMS = mTimeMS;
       function update(time) {
-        if (mStartMS === 0) mStartMS = time;
+        if (mStartMS === 0) {
+          mStartMS = time;
+        }
         mTimeMS = mOffsetMS + (time - mStartMS);
         mTimeS = mTimeMS / 1000.0;
         iDraw();
@@ -59,26 +60,26 @@ function Grapher() {
       requestAnimationFrame(update);
     }
   }
-  
+
   function anonymous(x, t) {
     //return (sin(440.0 * (x + t) * PI * 2.0));
     return (Math.sin(4.0 * (x + t) * Math.PI));
     //return (t);
   }
 
-  
+
   function iDrawGraph() {
     const mycolor = 'maroon';
     mContext.strokeStyle = mycolor;
     mContext.lineWidth = 3.0;//(mTheme === 0) ? 2.0 : 3.0;
     mContext.fillStyle = mycolor;
-    
+
     let oldBadNum = true;
-    
+
     const rx = mRa;
     const ry = mRa * mYres / mXres;
     const t = mTimeS;
-    
+
     mContext.beginPath();
     let oldy = 0.0;
     for (let i = 0; i < mXres; i++) {
@@ -97,15 +98,15 @@ function Grapher() {
       oldy = y;
     }
     mContext.stroke();
-    
+
     //console.log('/iDrawGraph');
   }
-  
-  
-  
+
+
+
   /**
    * canvas に描画
-  */
+   */
   function iDraw() {
     const rx = mRa;
     const ry = mRa * mYres / mXres;
@@ -113,7 +114,7 @@ function Grapher() {
     const maxx = mCx + rx;
     const miny = mCy - ry;
     const maxy = mCy + ry;
-    
+
     // axes
     const ctx = mContext;
     // todo: matrix 設定
@@ -121,11 +122,11 @@ function Grapher() {
     ctx.setTransform(1.0, 0.0, 0.0, 1, 0, 0.5, 0.5);
     ctx.fillStyle = 'gray';  // theme.mBackground;
     ctx.fillRect(0, 0, mXres, mYres);
-    
+
     const fontSize = 10 * devicePixelRatio;
     ctx.lineWidth = 1.0;
     ctx.font = fontSize.toFixed(0) + 'px monospace';
-    
+
     //const sep = (mShowAxes === 1) ? 5.0 : 4.0;
     const sep = 4.0;  // todo: mShowAxes = 2;
     let n = -1 + Math.floor(Math.log(mXres / (rx * 2.0)) / Math.log(sep));  // xxx: 1(整数)
@@ -134,12 +135,12 @@ function Grapher() {
     } else if (n > 100) {
       n = 100;
     }
-    
+
     /**
      * grid 描画
      * @param {number} off 数値表示と、荒さ
      * @param {string} color 線を引く色
-    */
+     */
     function drawGrid(off, color) {
       ctx.strokeStyle = color;
       let ste = Math.pow(sep, off + Math.floor(Math.log(rx) / Math.log(sep)));
@@ -147,7 +148,7 @@ function Grapher() {
       const ibx = Math.floor(maxx / ste);
       const iay = Math.floor(miny / ste);
       const iby = Math.floor(maxy / ste);
-      
+
       ctx.beginPath();
       for (let i = iax; i <= ibx; i++) {
         let x = i * ste;
@@ -162,7 +163,7 @@ function Grapher() {
         ctx.lineTo(0, iy);
       }
       ctx.stroke();
-      
+
       // todo: text label
       if (off === 0) {
         ctx.fillStyle = 'fuchsia';  // theme.mText;
@@ -181,8 +182,8 @@ function Grapher() {
     }
     drawGrid(-1, 'lime');  // thin grid  薄いグリッド
     drawGrid(0, 'aqua');  // coarse grid  粗いグリッド
-    
-    
+
+
     // axis 中線？
     // xxx: なぜ`{` で囲むのか？
     {
@@ -195,12 +196,13 @@ function Grapher() {
       ctx.moveTo(0, yPos); ctx.lineTo(mXres, yPos);
       ctx.stroke();
     }
-    
+
     iDrawGraph();
     //console.log('/iDraw');
   }
-    
+
 }
 console.log('out');
 
 document.addEventListener('DOMContentLoaded', Grapher);
+
