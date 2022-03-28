@@ -11,21 +11,61 @@ function Grapher() {
   let mRa = 12.0;  //12.0
   
   //let mRa 4.4;
-  let mTimeS = 0.0;
+  
   let mXres = 0;
   let mYres = 0;
+  
+  // todo: togglePlay
+  let mTimeS = 0.0;
+  //let mPaused = false;
+  let mPaused = true;
+  let mStartMS = 0;
+  let mTimeMS = 0;
+  let mOffsetMS = 0;
+  
+  
   init();
   
   
   function init() {
     iAdjustCanvas();
     iDraw();
+    
+    togglePlay();
     iDrawGraph();
+  }
+  
+  function iAdjustCanvas() {
+    const w = mCanvas.offsetWidth * devicePixelRatio;
+    const h = mCanvas.offsetHeight * devicePixelRatio;
+    mCanvas.width = w;
+    mCanvas.height = h;
+    mXres = w;
+    mYres = h;
+  }
+  
+  function togglePlay() {
+    mPaused = !mPaused;
+    //console.log(mPaused);
+    if (!mPaused) {
+      mStartMS = 0;
+      mOffsetMS = mTimeMS;
+      function update(time) {
+        if (mStartMS === 0) mStartMS = time;
+        
+        mTimeMS = mOffsetMS + (time - mStartMS);
+        mTimeS = mTimeMS / 1000.0;
+        iDraw();
+        if (!mPaused) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
   }
   
   function anonymous(x, t) {
     //return (sin(440.0 * (x + t) * PI * 2.0));
     return (Math.sin(4.0 * (x + t) * Math.PI));
+    //return (t);
   }
 
   
@@ -63,14 +103,6 @@ function Grapher() {
     console.log('/iDrawGraph');
   }
   
-  function iAdjustCanvas() {
-    const w = mCanvas.offsetWidth * devicePixelRatio;
-    const h = mCanvas.offsetHeight * devicePixelRatio;
-    mCanvas.width = w;
-    mCanvas.height = h;
-    mXres = w;
-    mYres = h;
-  }
   
   
   /**
