@@ -6,7 +6,6 @@ function Grapher() {
   const mContext = mCanvas.getContext('2d');
   const devicePixelRatio = window.devicePixelRatio || 1;
 
-
   let mCx = 0.0;
   let mCy = 0.0;
   let mRa = 12.0;  //12.0
@@ -43,21 +42,18 @@ function Grapher() {
   }
 
   function togglePlay() {
+    const update = (timestamp) => {
+      mStartMS = (mStartMS === 0) ? timestamp : mStartMS;
+      mTimeMS = mOffsetMS + (timestamp - mStartMS);
+      mTimeS = mTimeMS / 1000.0;
+      iDraw();
+      (!mPaused) ? requestAnimationFrame(update) : null;
+    }
+    
     mPaused = !mPaused;
     if (!mPaused) {
       mStartMS = 0;
       mOffsetMS = mTimeMS;
-      function update(time) {
-        if (mStartMS === 0) {
-          mStartMS = time;
-        }
-        mTimeMS = mOffsetMS + (time - mStartMS);
-        mTimeS = mTimeMS / 1000.0;
-        iDraw();
-        if (!mPaused) {
-          requestAnimationFrame(update);
-        }
-      }
       requestAnimationFrame(update);
     }
   }
@@ -65,14 +61,16 @@ function Grapher() {
   function anonymous(x, t) {
     //return (sin(440.0 * (x + t) * PI * 2.0));
     //return (t);
-    return (Math.sin(4.0 * (x + t) * Math.PI));
+    //return (Math.sin(4.0 * (x + t) * Math.PI) * 4.0);
+    return (Math.sin((x + t + .5) * Math.PI) * 4.0);
+    
   }
 
 
   function iDrawGraph() {
     const mycolor = 'maroon';
     mContext.strokeStyle = mycolor;
-    mContext.lineWidth = 3.0;//(mTheme === 0) ? 2.0 : 3.0;
+    mContext.lineWidth = 2.0;//(mTheme === 0) ? 2.0 : 3.0;
     mContext.fillStyle = mycolor;
 
     let oldBadNum = true;
@@ -99,7 +97,6 @@ function Grapher() {
       oldy = y;
     }
     mContext.stroke();
-
     //console.log('/iDrawGraph');
   }
 
@@ -131,11 +128,9 @@ function Grapher() {
     //const sep = (mShowAxes === 1) ? 5.0 : 4.0;
     const sep = 4.0;  // todo: mShowAxes = 2;
     let n = -1 + Math.floor(Math.log(mXres / (rx * 2.0)) / Math.log(sep));  // xxx: 1(整数)
-    if (n < 0) {
-      n = 0;
-    } else if (n > 100) {
-      n = 100;
-    }
+    
+    n = (n < 0) ? 0 : (n > 100) ? 100 : n ;
+    
 
     /**
      * grid 描画
