@@ -8,9 +8,8 @@ function Grapher() {
 
   let mCx = 0.0;
   let mCy = 0.0;
-  let mRa = 12.0;  //12.0
-  //let mRa 4.4;
-
+  let mRa = 4.4;  //12.0
+  
   let mXres = 0;
   let mYres = 0;
 
@@ -99,9 +98,6 @@ function Grapher() {
     mContext.stroke();
     //console.log('/iDrawGraph');
   }
-
-
-
   /**
    * canvas に描画
    */
@@ -126,7 +122,7 @@ function Grapher() {
     ctx.font = fontSize.toFixed(0) + 'px monospace';
 
     //const sep = (mShowAxes === 1) ? 5.0 : 4.0;
-    const sep = 4.0;  // todo: mShowAxes = 2;
+    const sep = 5.0;  // todo: mShowAxes = 2;
     let n = -1 + Math.floor(Math.log(mXres / (rx * 2.0)) / Math.log(sep));  // xxx: 1(整数)
     
     n = (n < 0) ? 0 : (n > 100) ? 100 : n ;
@@ -140,6 +136,7 @@ function Grapher() {
     function drawGrid(off, color) {
       ctx.strokeStyle = color;
       let ste = Math.pow(sep, off + Math.floor(Math.log(rx) / Math.log(sep)));
+      
       const iax = Math.floor(minx / ste);
       const ibx = Math.floor(maxx / ste);
       const iay = Math.floor(miny / ste);
