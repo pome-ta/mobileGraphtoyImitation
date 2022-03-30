@@ -1,26 +1,26 @@
-
 'use strict';
 
 function anonymous(x, t) {
   //return (sin(440.0 * (x + t) * PI * 2.0));
   //return (t);
-  //return (Math.sin(4.0 * (x + t) * Math.PI) * 4.0);
-  return (Math.sin((x + t + .5) * Math.PI) * 2.0);
+  //return (Math.sin(440.0 * (x + t) * Math.PI) * 2.0);
+  //return (Math.sin((x + t + .5) * Math.PI) * 2.0);
+  return (Math.sin(440.0 * (x + t) * Math.PI * 2.0));
 }
 
 
 function Grapher() {
   let mCx = 0.0;
   let mCy = 0.0;
-  let mRa = 3.2;  //12.0
+  let mRa = 4.4;  //12.0
   
   let mXres = 0;
   let mYres = 0;
 
   // todo: togglePlay
   let mTimeS = 0.0;
-  //let mPaused = false;
-  let mPaused = true;
+  let mPaused = false;
+  //let mPaused = true;
   let mStartMS = 0;
   let mTimeMS = 0;
   let mOffsetMS = 0;
@@ -199,6 +199,6 @@ function Grapher() {
 
 }
 console.log('out');
-
-document.addEventListener('DOMContentLoaded', Grapher);
+new Grapher();
+//document.addEventListener('DOMContentLoaded', Grapher);
 
