@@ -1,6 +1,14 @@
 
 'use strict';
 
+function anonymous(x, t) {
+  //return (sin(440.0 * (x + t) * PI * 2.0));
+  //return (t);
+  //return (Math.sin(4.0 * (x + t) * Math.PI) * 4.0);
+  return (Math.sin((x + t + .5) * Math.PI) * 2.0);
+}
+
+
 function Grapher() {
   let mCx = 0.0;
   let mCy = 0.0;
@@ -67,15 +75,6 @@ function Grapher() {
     }
   }
 
-
-  function anonymous(x, t) {
-    //return (sin(440.0 * (x + t) * PI * 2.0));
-    //return (t);
-    //return (Math.sin(4.0 * (x + t) * Math.PI) * 4.0);
-    return (Math.sin((x + t + .5) * Math.PI) * 2.0);
-  }
-
-
   function iDrawGraph() {
     const mycolor = 'lime';//'maroon';
     mContext.strokeStyle = mycolor;
@@ -128,31 +127,26 @@ function Grapher() {
     ctx.lineWidth = 1.0;
     ctx.font = fontSize.toFixed(0) + 'px monospace';
 
-    //const sep = (mShowAxes === 1) ? 5.0 : 4.0;
     // todo: グリッドの間隔
-    const sep = 5.0;  // todo: mShowAxes = 2;
+    const sep = 5.0;
     let n = -1 + Math.floor(Math.log(mXres / (rx * 2.4)) / Math.log(sep));
     // todo: 表示桁数
     n = (n < 0) ? 0 : (n > 100) ? 100 : n;
     
-    
-
     /**
-     * grid 描画
+     * マス目描画
      * @param {number} off 数値表示と、荒さ
      * @param {string} color 線を引く色
      */
     function drawGrid(off, color) {
-      ctx.strokeStyle = color;
       let ste = Math.pow(sep, off + Math.floor(Math.log(rx) / Math.log(sep)));
-      
       const iax = Math.floor(minx / ste);
       const ibx = Math.floor(maxx / ste);
       const iay = Math.floor(miny / ste);
       const iby = Math.floor(maxy / ste);
 
+      ctx.strokeStyle = color;
       ctx.beginPath();
-      // xxx: ここ繰り返してる
       for (let i = iax; i <= ibx; i++) {
         let x = i * ste;
         let ix = mXres * (0.5 + (x - mCx) / (2.0 * rx));
@@ -170,7 +164,6 @@ function Grapher() {
       // todo: text label
       if (off === 0) {
         ctx.fillStyle = theme.mText;
-        // xxx: ここ繰り返してる
         for (let i = iax; i <= ibx; i++) {
           let x = i * ste;
           let ix = mXres * (0.5 + (x - mCx) / (2.0 * rx));
@@ -182,10 +175,9 @@ function Grapher() {
           ctx.fillText(y.toFixed(n), 2, iy + 10);
         }
       }
-      //console.log('/drawGrid');
     }
-    drawGrid(-1, theme.mGridThin);  // thin grid  薄いグリッド
-    drawGrid(0, theme.mGrid);  // coarse grid  粗いグリッド
+    drawGrid(-1, theme.mGridThin);  // thin grid
+    drawGrid(0, theme.mGrid);  // coarse grid
 
 
     // axis 中線？
