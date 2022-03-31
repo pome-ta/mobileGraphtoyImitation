@@ -1,13 +1,4 @@
-'use strict';
-
-function anonymous(x, t) {
-  //return (sin(440.0 * (x + t) * PI * 2.0));
-  //return (t);
-  //return (Math.sin(440.0 * (x + t) * Math.PI) * 2.0);
-  //return (Math.sin((x + t + .5) * Math.PI) * 2.0);
-  return (Math.sin(440.0 * (x + t) * Math.PI * 2.0));
-}
-
+import {anonymous} from './mathWithSyntax.js'
 
 function Grapher() {
   let mCx = 0.0;
@@ -16,6 +7,9 @@ function Grapher() {
   
   let mXres = 0;
   let mYres = 0;
+  //const math = Object.assign({}, Math);
+  //console.log(Symbol.keyFor(Math))
+  console.log(Math);
 
   // todo: togglePlay
   let mTimeS = 0.0;
