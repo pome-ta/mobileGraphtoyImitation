@@ -45,6 +45,7 @@ function Grapher() {
   function init() {
     iAdjustCanvas();
     iDraw();
+    iDrawGraph();
     togglePlay();
 
   }
@@ -193,12 +194,13 @@ function Grapher() {
       ctx.stroke();
     }
 
-    iDrawGraph();
+    //iDrawGraph();
     //console.log('/iDraw');
   }
 
 }
 console.log('out');
-new Grapher();
+const grapher = new Grapher();
+//grapher.init();
 //document.addEventListener('DOMContentLoaded', Grapher);
 
