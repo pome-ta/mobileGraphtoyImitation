@@ -1,9 +1,12 @@
 import {mainSound} from './mathWithSyntax.js'
 
+const clamp = (x, a, b) => (x < a) ? a : (x > b) ? b : x;
+console.log(clamp(0.5, 0.0, 1.0));
+
 function Grapher() {
   let mCx = 0.0;
   let mCy = 0.0;
-  let mRa = 3.5;  //12.0
+  let mRa = 2.5;  //12.0
   
   let mXres = 0;
   let mYres = 0;
@@ -36,7 +39,7 @@ function Grapher() {
   function init() {
     iAdjustCanvas();
     iDraw();
-    iDrawGraph();
+    //iDrawGraph();
     togglePlay();
 
   }
@@ -56,6 +59,7 @@ function Grapher() {
       mTimeMS = mOffsetMS + (timestamp - mStartMS);
       mTimeS = mTimeMS / 1000.0;
       iDraw();
+      //iDrawGraph();
       (!mPaused) ? requestAnimationFrame(update) : null;
     };
     
@@ -83,6 +87,7 @@ function Grapher() {
     let oldy = 0.0;
     for (let i = 0; i < mXres; i++) {
       const x = mCx + rx * (-1.0 + 2.0 * i / mXres);
+      
       const y = mainSound(x, t);
       
       let badNum = isNaN(y) || (y == Number.NEGATIVE_INFINITY) || (y === Number.POSITIVE_INFINITY) || (Math.abs(y) > 1e9);
@@ -185,7 +190,7 @@ function Grapher() {
       ctx.stroke();
     }
 
-    //iDrawGraph();
+    iDrawGraph();
     //console.log('/iDraw');
   }
 
