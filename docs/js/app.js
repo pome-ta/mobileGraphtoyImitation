@@ -1,16 +1,13 @@
-import {anonymous} from './mathWithSyntax.js'
+import {mainSound} from './mathWithSyntax.js'
 
 function Grapher() {
   let mCx = 0.0;
   let mCy = 0.0;
-  let mRa = 4.4;  //12.0
+  let mRa = 3.5;  //12.0
   
   let mXres = 0;
   let mYres = 0;
-  //const math = Object.assign({}, Math);
-  //console.log(Symbol.keyFor(Math))
-  console.log(Math);
-
+  
   // todo: togglePlay
   let mTimeS = 0.0;
   let mPaused = false;
@@ -86,7 +83,7 @@ function Grapher() {
     let oldy = 0.0;
     for (let i = 0; i < mXres; i++) {
       const x = mCx + rx * (-1.0 + 2.0 * i / mXres);
-      const y = anonymous(x, t);
+      const y = mainSound(x, t);
       
       let badNum = isNaN(y) || (y == Number.NEGATIVE_INFINITY) || (y === Number.POSITIVE_INFINITY) || (Math.abs(y) > 1e9);
       if (!badNum) {
