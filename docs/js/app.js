@@ -1,16 +1,16 @@
-import {mainSound} from './mathWithSyntax.js'
+import { mainSound } from './mathWithSyntax.js';
 
-const clamp = (x, a, b) => (x < a) ? a : (x > b) ? b : x;
+const clamp = (x, a, b) => (x < a ? a : x > b ? b : x);
 console.log(clamp(0.5, 0.0, 1.0));
 
 function Grapher() {
   let mCx = 0.0;
   let mCy = 0.0;
-  let mRa = 2.5;  //12.0
-  
+  let mRa = 2.5; //12.0
+
   let mXres = 0;
   let mYres = 0;
-  
+
   // todo: togglePlay
   let mTimeS = 0.0;
   let mPaused = false;
@@ -18,30 +18,27 @@ function Grapher() {
   let mStartMS = 0;
   let mTimeMS = 0;
   let mOffsetMS = 0;
-  
+
   const theme = {
     mBackground: '#202020',
     mBackgroundOut: '#000000',
     mText: '#B0B0B0',
     mGrid: '#606060',
     mGridThin: '#404040',
-    mGraphs: ['#ffc040', '#ffffa0', '#a0ffc0',
-              '#40c0ff', '#d0a0ff', '#ff80b0']
+    mGraphs: ['#ffc040', '#ffffa0', '#a0ffc0', '#40c0ff', '#d0a0ff', '#ff80b0'],
   };
-  
+
   const mCanvas = document.querySelector('#mainCanvas');
   const mContext = mCanvas.getContext('2d');
   const devicePixelRatio = window.devicePixelRatio || 1;
 
   init();
 
-
   function init() {
     iAdjustCanvas();
     iDraw();
     //iDrawGraph();
     togglePlay();
-
   }
 
   function iAdjustCanvas() {
@@ -55,14 +52,14 @@ function Grapher() {
 
   function togglePlay() {
     const update = (timestamp) => {
-      mStartMS = (mStartMS === 0) ? timestamp : mStartMS;
+      mStartMS = mStartMS === 0 ? timestamp : mStartMS;
       mTimeMS = mOffsetMS + (timestamp - mStartMS);
       mTimeS = mTimeMS / 1000.0;
       iDraw();
       //iDrawGraph();
-      (!mPaused) ? requestAnimationFrame(update) : null;
+      !mPaused ? requestAnimationFrame(update) : null;
     };
-    
+
     mPaused = !mPaused;
     if (!mPaused) {
       mStartMS = 0;
@@ -72,13 +69,13 @@ function Grapher() {
   }
 
   function iDrawGraph() {
-    const mycolor = 'lime';//'maroon';
+    const mycolor = 'lime'; //'maroon';
     mContext.strokeStyle = mycolor;
-    mContext.lineWidth = 1.25;//(mTheme === 0) ? 2.0 : 3.0;
+    mContext.lineWidth = 1.25; //(mTheme === 0) ? 2.0 : 3.0;
     mContext.fillStyle = mycolor;
 
     const rx = mRa;
-    const ry = mRa * mYres / mXres;
+    const ry = (mRa * mYres) / mXres;
     const t = mTimeS;
 
     // todo: 式をグラフ化するところ
@@ -86,14 +83,18 @@ function Grapher() {
     let oldBadNum = true;
     let oldy = 0.0;
     for (let i = 0; i < mXres; i++) {
-      const x = mCx + rx * (-1.0 + 2.0 * i / mXres);
-      
+      const x = mCx + rx * (-1.0 + (2.0 * i) / mXres);
+
       const y = mainSound(x, t);
-      
-      let badNum = isNaN(y) || (y == Number.NEGATIVE_INFINITY) || (y === Number.POSITIVE_INFINITY) || (Math.abs(y) > 1e9);
+
+      let badNum =
+        isNaN(y) ||
+        y == Number.NEGATIVE_INFINITY ||
+        y === Number.POSITIVE_INFINITY ||
+        Math.abs(y) > 1e9;
       if (!badNum) {
-        let j = mYres * (0.5 + 0.5 * (mCy - y) / ry);
-        (oldBadNum) ? mContext.moveTo(i, j) : mContext.lineTo(i, j);
+        let j = mYres * (0.5 + (0.5 * (mCy - y)) / ry);
+        oldBadNum ? mContext.moveTo(i, j) : mContext.lineTo(i, j);
       }
       oldBadNum = badNum;
       oldy = y;
@@ -106,7 +107,7 @@ function Grapher() {
    */
   function iDraw() {
     const rx = mRa;
-    const ry = mRa * mYres / mXres;
+    const ry = (mRa * mYres) / mXres;
     const minx = mCx - rx;
     const maxx = mCx + rx;
     const miny = mCy - ry;
@@ -128,8 +129,8 @@ function Grapher() {
     const sep = 5.0;
     let n = -1 + Math.floor(Math.log(mXres / (rx * 2.4)) / Math.log(sep));
     // todo: 表示桁数
-    n = (n < 0) ? 0 : (n > 100) ? 100 : n;
-    
+    n = n < 0 ? 0 : n > 100 ? 100 : n;
+
     /**
      * マス目描画
      * @param {number} off 数値表示と、荒さ
@@ -173,9 +174,8 @@ function Grapher() {
         }
       }
     }
-    drawGrid(-1, theme.mGridThin);  // thin grid
-    drawGrid(0, theme.mGrid);  // coarse grid
-
+    drawGrid(-1, theme.mGridThin); // thin grid
+    drawGrid(0, theme.mGrid); // coarse grid
 
     // axis 中線？
     // xxx: なぜ`{` で囲むのか？
@@ -185,18 +185,18 @@ function Grapher() {
       ctx.strokeStyle = theme.mGrid;
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(xPos, 0); ctx.lineTo(xPos, mYres);
-      ctx.moveTo(0, yPos); ctx.lineTo(mXres, yPos);
+      ctx.moveTo(xPos, 0);
+      ctx.lineTo(xPos, mYres);
+      ctx.moveTo(0, yPos);
+      ctx.lineTo(mXres, yPos);
       ctx.stroke();
     }
 
     iDrawGraph();
     //console.log('/iDraw');
   }
-
 }
 console.log('out');
 const grapher = new Grapher();
 //grapher.init();
 //document.addEventListener('DOMContentLoaded', Grapher);
-
